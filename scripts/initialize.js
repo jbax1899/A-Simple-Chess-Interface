@@ -9,6 +9,7 @@ let textModeOnly = false;                         //draw letters to represent pi
 let depth = difficulty;                           //AI search depth (strength of AI)
 let autoPromote = false;                          //auto promote pieces to Queen? (instead of asking for a piece)
 let updateSpeed = 100;                            //update speed (ms)
+var updateTimer;
 let maxMoves = 0;                                 //max *half* moves. So 100 = 50 turns each. 0 to disable.
 // Game state
 let boardState;                                   //2d grid, 0=no piece, 1=white pawn, -1=black pawn, ect
@@ -54,6 +55,8 @@ var imageSize;
 
 // Run this code once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Global timer variable, every x-ms check if engine has determined best move for current player
+    updateTimer = setInterval(CheckIfBestMoveUpdated, updateSpeed);
     // Load the chess piece images to memory asynchronously
     let loadedImagesCount = 0;
     for (let i = 0; i < chessPieces.length; i++) {
@@ -138,5 +141,5 @@ function StartGame() {
 }
 
 function ResetGame() {
-  console.log("reset game");
+  console.log("TODO: reset game (refresh page)");
 }
