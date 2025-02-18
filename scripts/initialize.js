@@ -32,8 +32,6 @@ let canvas = document.getElementById('canvas');
 let tileSize = 60;
 let gridSize = 8;
 let edgePadding = tileSize / 2;
-canvas.width = (tileSize * gridSize) + (edgePadding * 2);
-canvas.height = (tileSize * gridSize) + (edgePadding * 2);
 let resizeIconSize = 20, resizeIconX, resizeIconY;
 // Define the chess piece image paths
 const chessPieces = [
@@ -55,6 +53,8 @@ var imageSize;
 
 // Run this code once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+  canvas.width = (tileSize * gridSize) + (edgePadding * 2);
+  canvas.height = (tileSize * gridSize) + (edgePadding * 2);
   // Global timer variable, every x-ms check if engine has determined best move for current player
   updateTimer = setInterval(CheckIfBestMoveUpdated, updateSpeed);
   // Load the chess piece images to memory asynchronously
