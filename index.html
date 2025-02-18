@@ -9,11 +9,58 @@
     <link rel="icon" type="image/x-icon" href="myfav.png">
   </head>
   <body>
-    <canvas id="canvas"></canvas>
-
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <section id="game">
+      <div id="boardWrapper">
+        <canvas id="board"></canvas>
+      </div>
+      <div id="side-menu">
+        <p><b>Move History</b></p>
+        <ul id="move-history">
+          <!-- starts empty -->
+        </ul>
+        <div id="options-menu">
+          <ul>
+            <li>
+              <p><b>Game Options</b></p>
+            </li>
+            <li>
+                <p>FEN:</p>
+                <label><input type="text" name="fen" id="fen" value="" readonly></label>
+            </li>
+            <li>
+              <p>Play as:</p>
+              <label><input type="radio" name="player" value="white" class="radio-btn"> White</label>
+              <label><input type="radio" name="player" value="black" class="radio-btn"> Black</label>
+            </li>
+            <li>
+              <p>Difficulty:</p>
+              <label><input type="number" name="difficulty" id="difficulty" min="1" max="10"></label>
+            </li>
+            <li>
+              <p>Auto-promote to Queen:</p>
+              <label><input type="checkbox" name="autoQueen" id="autoQueen" value="true" readonly></label>
+            </li>
+            <li>
+              <p>Only AI:</p>
+              <label><input type="checkbox" name="onlyAI" id="onlyAI"></label>
+              <p>Update Speed (ms):</p>
+              <label><input type="number" name="updateSpeed" id="updateSpeed" min="100" max="1000" step="100"></label>
+            </li>
+          </ul>
+       </div>
+      <p><b>Info</b></p>
+      <p>"Generic Chess Game" by Jordan T.</p>
+      <p>April 2023 v1.0</p>
+      <p>Made with HTML/CSS/Javascript</p>
+      <p>TODO: Promotion logic, auto-promote to queen logic, pawn check sometimes fails legal moves</p>    
+      </div>
+    </section>
 
     <script src="scripts/initialize.js"></script>
+    <script src="scripts/drawboard.js"></script>
+    <script src="scripts/turnhandler.js"></script>
+    <script src="scripts/actionhandler.js"></script>
+    <script src="scripts/conversions.js"></script>
 
     <script src="scripts/moves_pawn.js"></script>
     <script src="scripts/moves_knight.js"></script>
@@ -22,12 +69,10 @@
     <script src="scripts/moves_queen.js"></script>
     <script src="scripts/moves_king.js"></script>
 
-    <script src="scripts/drawboard.js"></script>
-    <script src="scripts/turnhandler.js"></script>
-    <script src="scripts/actionhandler.js"></script>
-    <script src="scripts/conversions.js"></script>
-	  <script src="scripts/check_win.js"></script>
-	  <script src="scripts/computer.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="scripts/computer.js"></script>
     <script src="scripts/create_fen.js"></script>
+
+    <script src="scripts/check_win.js"></script>
   </body>
 </html>

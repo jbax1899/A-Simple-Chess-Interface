@@ -98,6 +98,7 @@ function StartGame() {
       break;
     }
   }
+  
   // Set difficulty
   //document.getElementById("difficulty").defaultValue = difficulty;
   // Set update speed
