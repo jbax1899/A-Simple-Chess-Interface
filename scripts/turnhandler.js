@@ -1,5 +1,4 @@
-// Global timer variable, every x-ms check if engine has determined best move for current player
-let updateTimer = setInterval(CheckIfBestMoveUpdated, updateSpeed);
+
 
 function CheckIfBestMoveUpdated() {
     // If bestMove has changed,

@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       };
-      img.src = `Resources/${piece}`;
+      img.src = `resources/${piece}`;
     }
 
   //DEBUG
