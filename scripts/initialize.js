@@ -79,10 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
     img.src = `resources/${piece}`;
   }
 
-  //DEBUG
+  //Interface
   document.getElementById("autoQueen").checked = true;
-  document.getElementById("autoQueen").disabled = true;
+  document.getElementById("autoQueen").disabled = true; //TODO: implement choosing other promotion pieces
 
+  AddEventListeners();
   StartGame();
 });
 
