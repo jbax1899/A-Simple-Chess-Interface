@@ -1,5 +1,7 @@
 // Returns a string of the coordinate, like "a1"
-function getCoordString(row, col) {
+function getCoordString(move) {
+    const row = move[1];
+    const col = move[0];
     const columnLetter = String.fromCharCode('a'.charCodeAt(0) + col);
     const rowNumber = row + 1;
     return columnLetter + rowNumber;

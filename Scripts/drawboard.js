@@ -74,62 +74,30 @@ function DrawBoard() {
     const highlightSize = tileSize;
 
     // Highlight the prior tile
+    const newPriorX = humanPlayer === 0 ? priorX * tileSize + edgePadding
+                                        : (gridSize - 1 - priorX) * tileSize + edgePadding
     const newPriorY = humanPlayer === 0 ? (gridSize - 1 - priorY) * tileSize + edgePadding
                                         : priorY * tileSize + edgePadding
-    ctx.fillStyle = 'rgba(255, 255, 0, 0.5)'; // yellow with 50% opacity
-    ctx.fillRect(
-      priorX * tileSize + edgePadding,
-      newPriorY,
-      highlightSize,
-      highlightSize
-    );
+    ctx.fillStyle = 'rgba(255, 255, 0, 0.5)'; // Yellow with 50% opacity
+    ctx.fillRect(newPriorX, newPriorY, highlightSize, highlightSize);
 
     // Highlight the destination tile
-    const newNewY = humanPlayer === 0? (gridSize - 1 - newY) * tileSize + edgePadding
-                                        : newY * tileSize + edgePadding
+    const newNewX = humanPlayer === 0 ? newX * tileSize + edgePadding
+                                      : (gridSize - 1 - newX) * tileSize + edgePadding
+    const newNewY = humanPlayer === 0 ? (gridSize - 1 - newY) * tileSize + edgePadding
+                                      : newY * tileSize + edgePadding
     ctx.fillStyle = `rgba(200, 252, 0, 0.5)`; // Lime green with 50% opacity
-    ctx.fillRect(
-      newX * tileSize + edgePadding,
-      newNewY,
-      highlightSize,
-      highlightSize
-    );
+    ctx.fillRect(newNewX, newNewY, highlightSize, highlightSize);
   }
 
-  /*
-  // Copy absolute board to temp board variable
-  var board = [];
-  for (var i = 0; i < boardState.length; i++)
-    board[i] = boardState[i].slice();
-  // If black, flip the board
-  if (humanPlayer === 1) {
-    // Traverse each row of arr
-    for (i = 0; i < board.length; i++) {
-      // Initialise start and end index
-      var start = 0;
-      var end   = board.length - 1;
-      // Till start < end, swap the element
-      // at start and end index
-      while (start < end) {
-          // Swap the element
-          var temp = board[i][start];
-          board[i][start] = board[i][end];
-          board[i][end] = temp;
-          // Increment start and decrement
-          // end for next pair of swapping
-          start++;
-          end--;
-      }
-    }
-  }
-  */
-  
   // Draw the pieces on the board
   // We will be using text characters in the interim to represent pieces
   //Loop through each square, and if a piece occupies that square, draw it
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
-      let pieceValue = boardState[i][j];
+      const x = humanPlayer === 0 ? i : 7 - i; // Flipped board X
+      const y = humanPlayer === 0 ? j : 7 - j; // Flipped board Y
+      var pieceValue = boardState[x][y];
       if (pieceValue != 0) {
         if (textMode) {
           //draw letters to represent pieces instead of images
@@ -139,13 +107,9 @@ function DrawBoard() {
           else
             ctx.fillStyle = "black";
           ctx.font = 'bold 40px sans-serif';
-          var x = humanPlayer === 0 ? i : 8 - (i * 2); // Flipped board X
-          var y = humanPlayer === 0 ? j : 8 - (j * 2); // Flipped board Y
-          // White's perspective
           ctx.fillText(pieceName,
-                      (edgePadding + (tileSize / 4)) + (x * tileSize),
-                      (y * tileSize)
-                      );
+                      (x * tileSize) + edgePadding + (tileSize / 4),
+                      (gridSize * tileSize) - ((j - 1) * tileSize) - (edgePadding * 1.5));
         } else {
           //draw piece icons
           const imgX = (i * tileSize) + edgePadding;
@@ -162,8 +126,10 @@ function DrawBoard() {
 
   // If a tile is selected, and is on the grid, highlight it
   var selTile = [...selectedTile]; //shallow copy
-  if (humanPlayer === 1)           //if black, reverse Y
+  if (humanPlayer === 1) {         //if black, reverse
+    selTile[0] = 7 - selTile[0]; 
     selTile[1] = 7 - selTile[1];
+  }
   if (   selTile[0] > -1 
       && selTile[0] < gridSize 
       && selTile[1] > -1 

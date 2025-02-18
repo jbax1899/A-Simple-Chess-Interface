@@ -70,13 +70,13 @@ function CreateFEN() {
     else
         fen += ' -';
   
-    // Add the halfmove clock to the FEN string (assume 0 for now)
+    // Add the halfmove clock to the FEN string
     /*
     Informs how many moves both players have made since the last pawn advance or piece capture—known by chess programmers as the number of halfmoves.
     This field is useful to enforce the 50-move draw rule.
     When this counter reaches 100 (allowing each player to make 50 moves), the game ends in a draw.
     */
-    fen += ' 0';
+    fen += ' ' + halfMoves;
   
     // Add the fullmove number to the FEN string
     /*
@@ -86,6 +86,11 @@ function CreateFEN() {
     */
     fen += ' ' + blackMoves;
   
+    //update the FEN string in the side menu
+    var fenElement = document.getElementById('fen');
+    fenElement.value = fen;
+
+    //return the FEN string
     return fen;
 }
   

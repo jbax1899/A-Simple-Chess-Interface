@@ -25,11 +25,12 @@ function CheckPawn(position1, position2) {
             // Legal en passant capture - remove the other pawn
             boardState[lastMove[2][0]][lastMove[2][1]] = 0;
             return "";
-        // Check if legal non-passant capture
-        } else if (Math.sign(boardState[x2][y2]) == -Math.sign(boardState[x1][y1])  //capturing opponent's piece
-                    && y2 == y1 + direction                                         //1 square forward
-                    && (x2 == x1 + 1 || x2 == x1 - 1)                               //1 square to the side
-                    ) {
+        }
+        // Check if legal regular capture
+        if (direction == -Math.sign(boardState[x2][y2]) //capturing opponent's piece
+            && y2 == y1 + direction                     //1 square forward
+            && (x2 == x1 + 1 || x2 == x1 - 1)           //1 square to the side
+            ) {
             // Legal non-passant capture
             return "";
         }
@@ -68,4 +69,18 @@ function CheckPawn(position1, position2) {
         }
     }
     return 'Illegal move';
+}
+
+//takes a piece at _position_ and promotes it to desired _piece_
+function Promote(position, piece) {
+    let posX = position[0];
+    let posY = position[1];
+    let player = Math.sign(boardState[posX][posY]);
+    
+    //debug, assume Queen only until we code the selection GUI
+    let promoteTo = 5 * player;
+    
+    //promote the piece
+    boardState[posX][posY] = promoteTo;
+    console.log(turn === 1 ? "White" : "Black" + " promotes");
 }

@@ -14,10 +14,11 @@ canvas.addEventListener('click', (event) => {
     // Calculate the board coordinates of the clicked tile
     var row = Math.max(0, Math.min(7, Math.abs(Math.floor(x / tileSize))));
     var col = Math.max(0, Math.min(7, Math.abs(7 - Math.floor(y / tileSize))));
-    // If black, flip the coordinates vertically
-    if (humanPlayer === 1)
+    // If black, flip the coordinates
+    if (humanPlayer === 1) {
+        row = 7 - row;
         col = 7 - col;
-
+    }
     // Store the previous selected tile and update the selected tile
     lastSelected = selectedTile;
     selectedTile = [row, col];
@@ -93,3 +94,28 @@ document.addEventListener('mouseup', function(event) {
     resizing = false;
 });
 ////////////////////////////////////////////////////////////////
+//Side menu
+document.addEventListener('input', function(event) {
+    console.log('An input was changed: ' + event.target.name + ", " + event.target.value);
+    switch (event.target.name) {
+        case "player":
+            if (confirm("Start a new game?")) {
+                humanPlayer = event.target.value === "white" ? 0 : 1;
+                StartGame();
+            }
+            break;
+        case "difficulty": difficulty = parseInt(event.target.value); break;
+        case "autoPromote": 
+            autoPromote = event.target.checked;
+            break;
+        case "onlyAI":     
+            onlyAI = event.target.checked;
+            break;
+        case "updateSpeed":
+            setTimeout(CheckIfBestMoveUpdated, parseInt(event.target.value));
+            break;
+        default:
+            console.error("Unknown input: " + event.target.name);
+            break;
+    }
+});  

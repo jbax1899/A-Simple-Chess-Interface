@@ -4,7 +4,7 @@ console.log('wasmSupported: ' + wasmSupported);
 let stockfish = new Worker(wasmSupported ? './scripts/stockfish/stockfish.wasm.js' : './scripts/stockfish/stockfish.js');
 
 stockfish.addEventListener('message', function (e) {
-  console.log(e.data);
+  console.log("%c" + e.data, 'background: #CFD8DC; color: #000000');
   
   var bestMoveStated = e.data.indexOf('bestmove');
   if (bestMoveStated !== -1) {
@@ -19,7 +19,6 @@ function Analyse() {
   //AI
   var fen = CreateFEN(boardState);
   console.log('FEN: ' + fen);
-  console.log(boardState)
   stockfish.postMessage('position fen ' + fen);
   stockfish.postMessage('go depth ' + depth);
 }

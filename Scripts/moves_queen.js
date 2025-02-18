@@ -1,23 +1,31 @@
 function CheckQueen(position1, position2) {
-    // Get the piece at position1
+    const x1 = position1[0];
+    const y1 = position1[1];
+    const x2 = position2[0];
+    const y2 = position2[1];
     var piece;
-    if (position1[0] >= 0 && position1[0] < 8 && position1[1] >= 0 && position1[1] < 8 &&
-        position2[0] >= 0 && position2[0] < 8 && position2[1] >= 0 && position2[1] < 8) {
-        piece = boardState[position1[0]][position1[1]];
+    if (x1 >= 0 && x1 < 8 && y1 >= 0 && y1 < 8 && 
+        x2 >= 0 && x2 < 8 && y2 >= 0 && y2 < 8) {
+        piece = boardState[x1][y1];
     } else {
         return "Illegal move: Invalid position";
     }
     
     // Check if position2 is occupied by a friendly piece
-    if ((boardState[position2[0]][position2[1]] > 0 && piece > 0)
-    ||  (boardState[position2[0]][position2[1]] < 0 && piece < 0)) {
+    if ((boardState[x2][y2] > 0 && piece > 0)
+    ||  (boardState[x2][y2] < 0 && piece < 0)) {
         return "Illegal move: Cannot capture own piece";
     }
 
     // Check if the move is legal for a bishop or a rook
-    if (CheckBishop(position1, position2) != "" && CheckRook(position1, position2) != "") {
-        return "Illegal move: Queen can only move diagonally or horizontally/vertically";
+    var attemptBishopMove = CheckBishop(position1, position2);
+    var attemptRookMove   = CheckRook(position1, position2);
+    if (attemptBishopMove.length > 0 && attemptRookMove.length > 0) {
+        var str = ("Illegal move: Queen can only move diagonally or horizontally/vertically. \n" +
+                    (attemptBishopMove.length > 0 ? "Bishop failed (" + attemptBishopMove + ") \n": "") +
+                    (attemptRookMove.length > 0   ? "Rook failed (" + attemptRookMove + ") \n": "") +
+                    position1 + ", " + position2);
+        return str;
     }
-
   return "";
 }

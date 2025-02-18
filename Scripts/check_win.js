@@ -1,14 +1,27 @@
 function CheckGameOver() {
+  let result = "";
+  // Check if halfmove clock has elapsed, assuming maxMoves is not disabled (0)
+  if (halfMoves >= maxMoves && maxMoves != 0) {
+    result = "Draw due to halfmove limit";
+  }
   // Check if current player's king is in check.
   if (IsKingInCheck()) {
     isInCheck = true;
     console.log(turn === 1 ? "White" : "Black" + " is in check");
     // If in check, see if any move can get king out of check.
     if (CanGetOutOfCheck() == false) {
-      return true;
+      result = (turn === 1 ? "White" : "Black" + " is in checkmate");
     }
   }
-  return false;
+  if (result != "") {
+    setTimeout(() => {  
+      window.alert("Game over! " + result);
+    }, 100); //small async delay to let board finish drawing after final move
+    onlyAI = false;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function IsKingInCheck() {
@@ -116,7 +129,6 @@ function CanGetOutOfCheck() {
             }
             if (moveIsLegal == "") {
               // Move gets us out of check, so return true
-              console.log("legal move: ", x1, y1, x2, y2);
               return true;
             }
           }
