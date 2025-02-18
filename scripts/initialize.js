@@ -55,32 +55,32 @@ var imageSize;
 
 // Run this code once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Global timer variable, every x-ms check if engine has determined best move for current player
-    updateTimer = setInterval(CheckIfBestMoveUpdated, updateSpeed);
-    // Load the chess piece images to memory asynchronously
-    let loadedImagesCount = 0;
-    for (let i = 0; i < chessPieces.length; i++) {
-      const piece = chessPieces[i];
-      const img = new Image();
-      img.onload = function() {
-        pieceImages[piece] = img;
-        loadedImagesCount++;
-        if (loadedImagesCount === chessPieces.length) {
-          // All images have finished loading
-          imageSize = img.width;
-          if (!textModeOnly) {
-            // Redraw the board with images instead of letters
-            textMode = false;
-            DrawBoard();
-          }
+  // Global timer variable, every x-ms check if engine has determined best move for current player
+  updateTimer = setInterval(CheckIfBestMoveUpdated, updateSpeed);
+  // Load the chess piece images to memory asynchronously
+  let loadedImagesCount = 0;
+  for (let i = 0; i < chessPieces.length; i++) {
+    const piece = chessPieces[i];
+    const img = new Image();
+    img.onload = function() {
+      pieceImages[piece] = img;
+      loadedImagesCount++;
+      if (loadedImagesCount === chessPieces.length) {
+        // All images have finished loading
+        imageSize = img.width;
+        if (!textModeOnly) {
+          // Redraw the board with images instead of letters
+          textMode = false;
+          DrawBoard();
         }
-      };
-      img.src = `resources/${piece}`;
-    }
+      }
+    };
+    img.src = `resources/${piece}`;
+  }
 
   //DEBUG
-  document.getElementById("autoQueen").checked = true;
-  document.getElementById("autoQueen").disabled=true;
+  //document.getElementById("autoQueen").checked = true;
+  //document.getElementById("autoQueen").disabled = true;
 
   StartGame();
 });
