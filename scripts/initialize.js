@@ -82,9 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //Interface
   resizeIcon = new Image();
-  resizeIcon.onload = function() {
-    resizeIcon.src = 'resources/resize.ico';
-  }
+  resizeIcon.src = 'resources/resize.ico';
   document.getElementById("autoQueen").checked = true;
   document.getElementById("autoQueen").disabled = true; //TODO: implement choosing other promotion pieces
 
