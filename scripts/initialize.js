@@ -28,7 +28,7 @@ let rookMoved = [[false, false], [false, false]]; //[white[left, right], black[l
 let bestMove = null;
 let bestMoveLast = null;
 // Drawing variables
-let canvas = document.getElementById('canvas');
+var canvas; 
 let tileSize = 60;
 let gridSize = 8;
 let edgePadding = tileSize / 2;
@@ -53,6 +53,7 @@ var imageSize;
 
 // Run this code once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+  canvas = document.getElementById('canvas');
   canvas.width = (tileSize * gridSize) + (edgePadding * 2);
   canvas.height = (tileSize * gridSize) + (edgePadding * 2);
   // Global timer variable, every x-ms check if engine has determined best move for current player
