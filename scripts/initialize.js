@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //DEBUG
-  //document.getElementById("autoQueen").checked = true;
-  //document.getElementById("autoQueen").disabled = true;
+  document.getElementById("autoQueen").checked = true;
+  document.getElementById("autoQueen").disabled = true;
 
   StartGame();
 });
@@ -100,9 +100,9 @@ function StartGame() {
   }
   
   // Set difficulty
-  //document.getElementById("difficulty").defaultValue = difficulty;
+  document.getElementById("difficulty").defaultValue = difficulty;
   // Set update speed
-  //document.getElementById("updateSpeed").defaultValue = updateSpeed;
+  document.getElementById("updateSpeed").defaultValue = updateSpeed;
   ////////////////////////////////
 
   //
