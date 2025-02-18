@@ -28,7 +28,8 @@ let rookMoved = [[false, false], [false, false]]; //[white[left, right], black[l
 let bestMove = null;
 let bestMoveLast = null;
 // Drawing variables
-var canvas; 
+var canvas;
+var resizeIcon;
 let tileSize = 60;
 let gridSize = 8;
 let edgePadding = tileSize / 2;
@@ -80,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //Interface
+  resizeIcon = new Image();
+  resizeIcon.src = 'resize.ico';
   document.getElementById("autoQueen").checked = true;
   document.getElementById("autoQueen").disabled = true; //TODO: implement choosing other promotion pieces
 
