@@ -1,0 +1,86 @@
+html, body {
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+#game {
+    display: flex;
+    height: 80%;
+    margin: 0;
+}
+
+#boardWrapper {
+    position: relative;
+    height: 100%;
+    max-width: fit-content;
+}
+
+#board, #side-menu {
+    box-sizing: border-box;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+}
+
+#board {
+    position: relative;
+    width: 100%;
+}
+
+#side-menu {
+    height: 100%;
+    min-width: 300px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 1em;
+    
+    background-color: lightgray;
+    border-radius: 5px;
+    overflow-y: auto;
+}
+
+#side-menu p {
+    margin: 0;
+    padding: 0;
+}
+
+#move-history {
+    flex-grow: 1;
+    margin: 0;
+    margin-top: 0.5em;
+    padding: 1em;
+
+    background-color: white;
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+#move-history li {
+    list-style: none;
+}
+
+#options-menu p {
+    display: inline;
+}
+
+#options-menu ul {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 0;
+}
+
+#options-menu li {
+    list-style: none;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+}
+
+#options-menu input[type="text"] {
+    width: 100%;
+}
+
+#options-menu input[type="number"] {
+    width: 4em;
+}
