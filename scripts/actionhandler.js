@@ -1,3 +1,25 @@
+function fitBoardToWidth() {
+    const boardWrapper = document.getElementById('boardWrapper');
+    const availableWidth = boardWrapper.clientWidth;
+    const availableHeight = window.innerHeight * 0.7; // 70% of the window height
+    const maxDimension = Math.min(availableWidth, availableHeight);
+    const newWidth = Math.max(320, Math.min(1280, maxDimension));
+    const originalTileSize = newWidth / gridSize;
+    tileSize = Math.floor(originalTileSize / 10) * 10; // Round down to nearest multiple of 10
+    const adjustmentFactor = tileSize / originalTileSize;
+    edgePadding = tileSize / 2;
+    const adjustedWidth = tileSize * gridSize;
+    canvas.style.width = `${adjustedWidth}px`;
+    canvas.style.height = `${adjustedWidth}px`;
+    canvas.width = adjustedWidth + (2 * edgePadding);
+    canvas.height = adjustedWidth + (2 * edgePadding);
+    DrawBoard(adjustmentFactor);
+}
+
+// Resize board when the window is resized
+window.addEventListener('resize', fitBoardToWidth);
+window.addEventListener('load', fitBoardToWidth);
+
 function AddEventListeners() {
     // Detect mouse clicks on the canvas
     canvas.addEventListener('click', (event) => {
@@ -9,8 +31,8 @@ function AddEventListeners() {
         rect.top += offsetY;
         rect.right -= offsetX;
         rect.bottom -= offsetY;
-        const x = event.clientX - rect.left - edgePadding;
-        const y = event.clientY - rect.top - edgePadding;
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
     
         // Calculate the board coordinates of the clicked tile
         var row = Math.max(0, Math.min(7, Math.abs(Math.floor(x / tileSize))));
@@ -44,56 +66,6 @@ function AddEventListeners() {
         DrawBoard();
     });
 
-    ////////////////////////////////////////////////////////////////
-    // Resize canvas button
-    let resizing    = false;
-    let initialSize = null;
-    let initialX    = null;
-    let initialY    = null;
-
-    // Button icon
-    const resizeIcon  = new Image();
-    resizeIcon.src    = 'resources/resize.ico';
-
-    document.addEventListener('mousedown', function(event) {
-        const buttonWidth = resizeIconSize;
-        const buttonHeight = resizeIconSize;
-        const canvasRect = canvas.getBoundingClientRect();
-        const buttonRect = {
-            left: canvasRect.left + canvas.width - buttonWidth,
-            top: canvasRect.top + canvas.height - buttonHeight,
-            right: canvasRect.left + canvas.width,
-            bottom: canvasRect.top + canvas.height,
-        };
-        if (event.clientX >= buttonRect.left && event.clientX < buttonRect.right &&
-            event.clientY >= buttonRect.top && event.clientY < buttonRect.bottom) {
-            resizing = true;
-            initialSize = tileSize;
-            initialX = event.clientX;
-            initialY = event.clientY;
-        }
-    });
-
-    document.addEventListener('mousemove', function(event) {
-        if (resizing) {
-            const dx = event.clientX - initialX;
-            const dy = event.clientY - initialY;
-            const multiplier = 0.1; //slows the drag speed
-            const minTileSize = 16;
-            const maxTileSize = minTileSize * 6;
-            const delta = Math.max(dx, dy) * multiplier;
-            const snap = 2; //canvas snaps to a multiple of:
-            tileSize = Math.ceil(Math.max(minTileSize, Math.min(maxTileSize, initialSize + delta) / snap)) * snap; //keep canvas within bounds, snap
-            edgePadding = tileSize / 2;
-            canvas.width = (tileSize * gridSize) + (edgePadding * 2);
-            canvas.height = (tileSize * gridSize) + (edgePadding * 2);
-            DrawBoard();
-        }
-    });
-
-    document.addEventListener('mouseup', function(event) {
-        resizing = false;
-    });
     ////////////////////////////////////////////////////////////////
     //Side menu
     document.addEventListener('input', function(event) {

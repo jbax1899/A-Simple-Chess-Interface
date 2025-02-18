@@ -6,14 +6,28 @@ html, body {
 
 #game {
     display: flex;
-    height: 80%;
+    flex-wrap: wrap;
+    min-height: 80%;
+    max-height: 100%;
     margin: 0;
+    justify-content: center; /* Center the game section horizontally */
 }
 
 #boardWrapper {
-    position: relative;
-    height: 100%;
-    max-width: fit-content;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-height: 70vh;
+}
+
+#canvas {
+    width: 100%;
+    height: auto;
+    min-width: 320px;
+    max-width: 1280px;
+    max-height: 70vh;
 }
 
 #board, #side-menu {
@@ -31,12 +45,12 @@ html, body {
 #side-menu {
     height: 100%;
     min-width: 300px;
-    max-width: 500px;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
+    flex-basis: 30%;
     margin: 0;
     padding: 1em;
-    
     background-color: lightgray;
     border-radius: 5px;
     overflow-y: auto;
@@ -52,7 +66,8 @@ html, body {
     margin: 0;
     margin-top: 0.5em;
     padding: 1em;
-
+    min-height: 2em;
+    max-height: 100%;
     background-color: white;
     overflow-y: auto; /* Allow vertical scrolling */
 }
@@ -83,4 +98,39 @@ html, body {
 
 #options-menu input[type="number"] {
     width: 4em;
+}
+
+/* Adjust layout for smaller screens */
+@media (max-width: 940px) {
+    #game {
+        flex-direction: column; /* Stack elements vertically */
+        height: auto;
+    }
+
+    #boardWrapper, #side-menu {
+        width: 100%;
+        flex-basis: auto;
+        max-width: 100%;
+    }
+
+    #side-menu {
+        align-self: center;
+    }
+}
+
+/* Adjust layout for larger screens */
+@media (min-width: 941px) {
+    #game {
+        flex-direction: row; /* Arrange elements side by side */
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    #boardWrapper {
+        max-width: calc(100% - 300px);
+    }
+
+    #side-menu {
+        max-width: 300px;
+    }
 }

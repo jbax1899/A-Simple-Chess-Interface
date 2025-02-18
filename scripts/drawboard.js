@@ -62,85 +62,80 @@ function DrawBoard() {
                 );
   }
 
-  // Resize icon
-  resizeIconSize = tileSize / 3;                // set the size of the icon
-  resizeIconX = canvas.width - resizeIconSize;  // set the X position of the icon
-  resizeIconY = canvas.height - resizeIconSize; // set the Y position of the icon
-  ctx.drawImage(resizeIcon, resizeIconX, resizeIconY, resizeIconSize, resizeIconSize);
+  if (gameStarted) {
+    // Highlight the prior move
+    if (lastMove !== null) {
+      const [piece, [priorX, priorY], [newX, newY]] = lastMove;
+      const highlightSize = tileSize;
 
-  // Highlight the prior move
-  if (lastMove !== null) {
-    const [piece, [priorX, priorY], [newX, newY]] = lastMove;
-    const highlightSize = tileSize;
+      // Highlight the prior tile
+      const newPriorX = humanPlayer === 0 ? priorX * tileSize + edgePadding
+                                          : (gridSize - 1 - priorX) * tileSize + edgePadding
+      const newPriorY = humanPlayer === 0 ? (gridSize - 1 - priorY) * tileSize + edgePadding
+                                          : priorY * tileSize + edgePadding
+      ctx.fillStyle = 'rgba(255, 255, 0, 0.5)'; // Yellow with 50% opacity
+      ctx.fillRect(newPriorX, newPriorY, highlightSize, highlightSize);
 
-    // Highlight the prior tile
-    const newPriorX = humanPlayer === 0 ? priorX * tileSize + edgePadding
-                                        : (gridSize - 1 - priorX) * tileSize + edgePadding
-    const newPriorY = humanPlayer === 0 ? (gridSize - 1 - priorY) * tileSize + edgePadding
-                                        : priorY * tileSize + edgePadding
-    ctx.fillStyle = 'rgba(255, 255, 0, 0.5)'; // Yellow with 50% opacity
-    ctx.fillRect(newPriorX, newPriorY, highlightSize, highlightSize);
+      // Highlight the destination tile
+      const newNewX = humanPlayer === 0 ? newX * tileSize + edgePadding
+                                        : (gridSize - 1 - newX) * tileSize + edgePadding
+      const newNewY = humanPlayer === 0 ? (gridSize - 1 - newY) * tileSize + edgePadding
+                                        : newY * tileSize + edgePadding
+      ctx.fillStyle = `rgba(200, 252, 0, 0.5)`; // Lime green with 50% opacity
+      ctx.fillRect(newNewX, newNewY, highlightSize, highlightSize);
+    }
 
-    // Highlight the destination tile
-    const newNewX = humanPlayer === 0 ? newX * tileSize + edgePadding
-                                      : (gridSize - 1 - newX) * tileSize + edgePadding
-    const newNewY = humanPlayer === 0 ? (gridSize - 1 - newY) * tileSize + edgePadding
-                                      : newY * tileSize + edgePadding
-    ctx.fillStyle = `rgba(200, 252, 0, 0.5)`; // Lime green with 50% opacity
-    ctx.fillRect(newNewX, newNewY, highlightSize, highlightSize);
-  }
-
-  // Draw the pieces on the board
-  // We will be using text characters in the interim to represent pieces
-  //Loop through each square, and if a piece occupies that square, draw it
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
-      const x = humanPlayer === 0 ? i : 7 - i; // Flipped board X
-      const y = humanPlayer === 0 ? j : 7 - j; // Flipped board Y
-      var pieceValue = boardState[x][y];
-      if (pieceValue != 0) {
-        if (textMode) {
-          //draw letters to represent pieces instead of images
-          let pieceName = getPieceName(Math.abs(pieceValue));
-          if (pieceValue > 0)
-            ctx.fillStyle = 'pink';
-          else
-            ctx.fillStyle = "black";
-          ctx.font = 'bold 40px sans-serif';
-          ctx.fillText(pieceName,
-                      (x * tileSize) + edgePadding + (tileSize / 4),
-                      (gridSize * tileSize) - ((j - 1) * tileSize) - (edgePadding * 1.5));
-        } else {
-          //draw piece icons
-          const imgX = (i * tileSize) + edgePadding;
-          const imgY = (gridSize * tileSize) - (j * tileSize) - edgePadding;
-          ctx.drawImage(pieceImages[GetPieceImageFilename(pieceValue)],
-                        imgX, 
-                        imgY,
-                        tileSize,
-                        tileSize);
+    // Draw the pieces on the board
+    // We will be using text characters in the interim to represent pieces
+    //Loop through each square, and if a piece occupies that square, draw it
+    for (var i = 0; i < 8; i++) {
+      for (var j = 0; j < 8; j++) {
+        const x = humanPlayer === 0 ? i : 7 - i; // Flipped board X
+        const y = humanPlayer === 0 ? j : 7 - j; // Flipped board Y
+        var pieceValue = boardState[x][y];
+        if (pieceValue != 0) {
+          if (textMode) {
+            //draw letters to represent pieces instead of images
+            let pieceName = getPieceName(Math.abs(pieceValue));
+            if (pieceValue > 0)
+              ctx.fillStyle = 'pink';
+            else
+              ctx.fillStyle = "black";
+            ctx.font = 'bold 40px sans-serif';
+            ctx.fillText(pieceName,
+                        (x * tileSize) + edgePadding + (tileSize / 4),
+                        (gridSize * tileSize) - ((j - 1) * tileSize) - (edgePadding * 1.5));
+          } else {
+            //draw piece icons
+            const imgX = (i * tileSize) + edgePadding;
+            const imgY = (gridSize * tileSize) - (j * tileSize) - edgePadding;
+            const pieceImage = pieceImages[GetPieceImageFilename(pieceValue)];
+            if (pieceImage) {
+              ctx.drawImage(pieceImage, imgX, imgY, tileSize, tileSize);
+            }
+          }
         }
       }
     }
-  }
 
-  // If a tile is selected, and is on the grid, highlight it
-  var selTile = [...selectedTile]; //shallow copy
-  if (humanPlayer === 1) {         //if black, reverse
-    selTile[0] = 7 - selTile[0]; 
-    selTile[1] = 7 - selTile[1];
-  }
-  if (   selTile[0] > -1 
-      && selTile[0] < gridSize 
-      && selTile[1] > -1 
-      && selTile[1] < gridSize) {
-    var topLeftX = (selTile[0] * tileSize) + edgePadding;
-    var topLeftY = (gridSize * tileSize) - (selTile[1] * tileSize) - edgePadding;
-    var highlightPadding = 1;
-    ctx.beginPath();
-    ctx.lineWidth = "4";
-    ctx.strokeStyle = "yellow";
-    ctx.rect(topLeftX + highlightPadding, topLeftY + highlightPadding, tileSize - highlightPadding, tileSize - highlightPadding);
-    ctx.stroke();
+    // If a tile is selected, and is on the grid, highlight it
+    var selTile = [...selectedTile]; //shallow copy
+    if (humanPlayer === 1) {         //if black, reverse
+      selTile[0] = 7 - selTile[0]; 
+      selTile[1] = 7 - selTile[1];
+    }
+    if (   selTile[0] > -1 
+        && selTile[0] < gridSize 
+        && selTile[1] > -1 
+        && selTile[1] < gridSize) {
+      var topLeftX = (selTile[0] * tileSize) + edgePadding;
+      var topLeftY = (gridSize * tileSize) - (selTile[1] * tileSize) - edgePadding;
+      var highlightPadding = 1;
+      ctx.beginPath();
+      ctx.lineWidth = "4";
+      ctx.strokeStyle = "yellow";
+      ctx.rect(topLeftX + highlightPadding, topLeftY + highlightPadding, tileSize - highlightPadding, tileSize - highlightPadding);
+      ctx.stroke();
+    }
   }
 }

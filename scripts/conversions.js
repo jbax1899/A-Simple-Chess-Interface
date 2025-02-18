@@ -64,6 +64,6 @@ function GetPieceImageFilename(pieceValue) {
     default:
       return ''; // return empty string if pieceValue is not valid
   }
-  var filename = color + '_' + type + '.png'; // return the filename based on color and piece type
+  var filename = color + '_' + type; // return the filename based on color and piece type
   return filename;
 }
