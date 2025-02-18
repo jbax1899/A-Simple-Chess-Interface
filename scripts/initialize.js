@@ -99,9 +99,9 @@ function StartGame() {
     }
   }
   // Set difficulty
-  document.getElementById("difficulty").defaultValue = difficulty;
+  //document.getElementById("difficulty").defaultValue = difficulty;
   // Set update speed
-  document.getElementById("updateSpeed").defaultValue = updateSpeed;
+  //document.getElementById("updateSpeed").defaultValue = updateSpeed;
   ////////////////////////////////
 
   //
