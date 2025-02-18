@@ -27,7 +27,7 @@ let rookMoved = [[false, false], [false, false]]; //[white[left, right], black[l
 let bestMove = null;
 let bestMoveLast = null;
 // Drawing variables
-let canvas = document.getElementById('board');
+let canvas = document.getElementById('canvas');
 let tileSize = 60;
 let gridSize = 8;
 let edgePadding = tileSize / 2;
@@ -52,8 +52,8 @@ const chessPieces = [
 var pieceImages = {};
 var imageSize;
 
-// Run this code as soon as the page is loaded
-window.addEventListener('load', () => {
+// Run this code once the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
     // Load the chess piece images to memory asynchronously
     let loadedImagesCount = 0;
     for (let i = 0; i < chessPieces.length; i++) {
